@@ -1,0 +1,44 @@
+﻿<!-- Views/User/Index.cshtml -->
+@model UserModel
+@{
+    ViewBag.Title = "User Form";
+    List<HobbyModel> hobbies = ViewBag.Hobbies as List<HobbyModel>;
+}
+
+<h2>User Form</h2>
+
+@using (Html.BeginForm("Submit", "User", FormMethod.Post))
+{
+    <div>
+        @Html.LabelFor(m => m.Username)
+        @Html.TextBoxFor(m => m.Username)
+    </div>
+    <div>
+        @Html.LabelFor(m => m.Age)
+        @Html.TextBoxFor(m => m.Age)
+    </div>
+    <div>
+        <label>Hobbies:</label><br />
+        @for (int i = 0; i < hobbies.Count; i++)
+        {
+            <div>
+                @Html.CheckBox($"hobbies[{i}].IsSelected", false) @hobbies[i].Name
+            </div>
+        }
+    </div>
+    
+    <br /><br />
+    
+    <div>
+        <label>Hobby Names:</label><br />
+        @for (int i = 0; i < hobbies.Count; i++)
+        {
+            <div>
+            <input type="checkbox" name="hobbyNames" value="@hobbies[i].Name" 
+                   @(Model != null && Model.HobbyNames.Contains(hobbies[i].Name)? "checked": String.Empty) />
+                <span>@hobbies[i].Name</span>
+            </div>
+        }
+    </div>
+    <button type="submit">Submit</button>
+}
